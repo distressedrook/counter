@@ -26,8 +26,8 @@ struct HomeView<VM>: View where VM: HomeViewModel {
         ZStack {
             Color.primaryColor.edgesIgnoringSafeArea(.all)
             Group {
-                TimerView(progress: $viewModel.progress, displayText: $viewModel.displayText)
-                TimerActionView(viewModel: viewModel)
+                Clock(progress: $viewModel.progress, displayText: $viewModel.displayText)
+                ControlBox(viewModel: viewModel)
             }
         }
         .onChange(of: scenePhase) { newPhase in
@@ -38,15 +38,6 @@ struct HomeView<VM>: View where VM: HomeViewModel {
     }
 }
 
-struct BubbleView: View {
-    let size: CGFloat, x: CGFloat, y: CGFloat
-    var body: some View {
-        ZStack {
-            Circle().foregroundColor(.bubbleColor)
-                .frame(width: size, height: size).offset(x: x, y: y)
-        }
-    }
-}
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
