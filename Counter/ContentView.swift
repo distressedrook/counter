@@ -16,6 +16,6 @@ struct ContentView<HVM>: View where HVM : HomeViewModel {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(homeViewModel: HomeViewModelImp(timeRemaining: 60000, stopped: false))
+        ContentView(homeViewModel: HomeViewModelImp(timeRemaining: 60000, stopped: true))
     }
 }
