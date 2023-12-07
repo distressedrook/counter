@@ -16,6 +16,7 @@ struct ContentView<HVM>: View where HVM : HomeViewModel {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
+        //Or can be injected by using @EnvironmentObject as well. 
         ContentView(homeViewModel: HomeViewModelImp(timeRemaining: 60000, stopped: true))
     }
 }
