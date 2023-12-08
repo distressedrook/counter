@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F243DC52B2301F000D0A052 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F243DC42B2301F000D0A052 /* Int.swift */; };
 		0F6AC86B2B21A667001F0A1D /* CounterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F6AC86A2B21A667001F0A1D /* CounterApp.swift */; };
 		0F6AC86D2B21A667001F0A1D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F6AC86C2B21A667001F0A1D /* ContentView.swift */; };
 		0F6AC86F2B21A668001F0A1D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F6AC86E2B21A668001F0A1D /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0F243DC42B2301F000D0A052 /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
 		0F6AC8672B21A667001F0A1D /* Counter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Counter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F6AC86A2B21A667001F0A1D /* CounterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterApp.swift; sourceTree = "<group>"; };
 		0F6AC86C2B21A667001F0A1D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -81,6 +83,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F243DC22B22FC2C00D0A052 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				0F6AC8942B21A688001F0A1D /* Home */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		0F243DC32B22FC5400D0A052 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				0F6AC86A2B21A667001F0A1D /* CounterApp.swift */,
+				0F6AC86C2B21A667001F0A1D /* ContentView.swift */,
+				0F6AC86E2B21A668001F0A1D /* Assets.xcassets */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		0F6AC85E2B21A667001F0A1D = {
 			isa = PBXGroup;
 			children = (
@@ -104,12 +124,10 @@
 		0F6AC8692B21A667001F0A1D /* Counter */ = {
 			isa = PBXGroup;
 			children = (
+				0F243DC22B22FC2C00D0A052 /* Screens */,
 				0F6AC8A12B21D66A001F0A1D /* Components */,
 				0F6AC89E2B21D000001F0A1D /* Extenstions */,
-				0F6AC8942B21A688001F0A1D /* Home */,
-				0F6AC86A2B21A667001F0A1D /* CounterApp.swift */,
-				0F6AC86C2B21A667001F0A1D /* ContentView.swift */,
-				0F6AC86E2B21A668001F0A1D /* Assets.xcassets */,
+				0F243DC32B22FC5400D0A052 /* App */,
 				0F6AC8702B21A668001F0A1D /* Preview Content */,
 			);
 			path = Counter;
@@ -153,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				0F6AC89F2B21D00D001F0A1D /* Color.swift */,
+				0F243DC42B2301F000D0A052 /* Int.swift */,
 			);
 			path = Extenstions;
 			sourceTree = "<group>";
@@ -299,6 +318,7 @@
 				0F6AC8962B21A6A7001F0A1D /* HomeView.swift in Sources */,
 				0F6AC8A02B21D00D001F0A1D /* Color.swift in Sources */,
 				0F6AC86D2B21A667001F0A1D /* ContentView.swift in Sources */,
+				0F243DC52B2301F000D0A052 /* Int.swift in Sources */,
 				0F6AC86B2B21A667001F0A1D /* CounterApp.swift in Sources */,
 				0F6AC8A32B21D685001F0A1D /* Clock.swift in Sources */,
 				0F6AC8982B21A6B4001F0A1D /* HomeViewModel.swift in Sources */,

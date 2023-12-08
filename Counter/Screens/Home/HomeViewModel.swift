@@ -17,12 +17,10 @@ protocol HomeViewModel: ObservableObject {
     func toggleCountdown()
     func startTimer()
 
-    func saveState()
-
+    func scheduleNotificationIfNeeded()
 }
 
 class HomeViewModelImp: HomeViewModel {
-
     @Published var progress: Double
     @Published var displayText: String
     @Published var stopped: Bool
@@ -33,7 +31,7 @@ class HomeViewModelImp: HomeViewModel {
     private var savedDate: Date?
     private var previousDate: Date?
 
-    var timeRemaining: Int  {
+    var timeRemaining: Int {
         didSet {
             updateDisplayText()
             updateProgress()
@@ -42,31 +40,26 @@ class HomeViewModelImp: HomeViewModel {
 
     init(timeRemaining: Int, stopped: Bool) {
         self.timeRemaining = timeRemaining
-        self.initialTime = timeRemaining
-        let seconds = self.timeRemaining / 1000
-        let milliseconds = (self.timeRemaining % 1000) / 10
-        self.displayText = "\(seconds):\(String(format: "%02d", milliseconds))"
-        self.progress = Double(self.timeRemaining) / Double(self.initialTime) * 100
+        initialTime = timeRemaining
+        displayText = timeRemaining.toClockFormat
+        progress = Double(self.timeRemaining) / Double(initialTime) * 100
         self.stopped = stopped
-        self.stopButtonEnabled = !stopped
+        stopButtonEnabled = !stopped
     }
 
-
     private func updateDisplayText() {
-        let seconds = self.timeRemaining / 1000
-        let milliseconds = (self.timeRemaining % 1000) / 10
-        self.displayText = "\(seconds):\(String(format: "%02d", milliseconds))"
+        displayText = timeRemaining.toClockFormat
     }
 
     private func updateProgress() {
-        self.progress = Double(self.timeRemaining) / Double(self.initialTime) * 100
+        progress = Double(timeRemaining) / Double(initialTime) * 100
     }
 }
 
 extension HomeViewModelImp {
-    func saveState() {
-        if self.stopped { return }
-        let notificationTimeInterval = TimeInterval(Double(self.timeRemaining) / 1000.0)
+    func scheduleNotificationIfNeeded() {
+        if stopped { return }
+        let notificationTimeInterval = TimeInterval(Double(timeRemaining) / 1000.0)
         let notificationDate = Date.now.addingTimeInterval(notificationTimeInterval)
         scheduleNotification(at: notificationDate)
     }
@@ -92,53 +85,55 @@ extension HomeViewModelImp {
 }
 
 extension HomeViewModelImp {
-
     func toggleCountdown() {
-        if self.stopped {
-            self.startTimer()
+        if stopped {
+            startTimer()
         } else {
-            self.pauseTimer()
+            pauseTimer()
         }
     }
 
     func stopTimer() {
-        self.stopped = true
-        self.stopButtonEnabled = false
-        self.timer?.invalidate()
-        self.timeRemaining = self.initialTime
-        self.previousDate = nil
-        self.timer = nil
+        stopped = true
+        stopButtonEnabled = false
+        timer?.invalidate()
+        timeRemaining = initialTime
+        previousDate = nil
+        timer = nil
     }
 
     func startTimer() {
-        self.stopped = false
-        self.stopButtonEnabled = true
-        self.previousDate = Date.now
-        self.timer = Timer(timeInterval: 0.02, repeats: true) { [weak self] timer in
+        stopped = false
+        stopButtonEnabled = true
+        previousDate = Date.now
+        /*
+         It would be unreliable to rely on the Timer (for example timerInterval: 0.001) for updates.
+         Instead, we save the previous date, and on the next timer pass which happens every 0.02s or so,
+         we get the current time, calculate the time difference, and subtract from time remaining. This logic
+         also allows us to be app state agnostic.
+         */
+        timer = Timer(timeInterval: 0.02, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             guard let initialDate = self.previousDate else {
-                timer.invalidate()
-                self.timer = nil
+                self.stopTimer()
                 return
             }
-            let timeInterval = Int(Date.now.timeIntervalSince(initialDate) * 1000)
-            timeRemaining = timeRemaining - timeInterval
+            let timeElapsed = Int(Date.now.timeIntervalSince(initialDate) * 1000)
+            timeRemaining = timeRemaining - timeElapsed
             if timeRemaining <= 0 {
                 timeRemaining = 0
                 self.stopTimer()
-                timer.invalidate()
-                self.timer = nil
                 self.stopButtonEnabled = false
             }
             self.previousDate = Date.now
         }
-        RunLoop.current.add(self.timer!, forMode: .default)
+        RunLoop.current.add(timer!, forMode: .default)
     }
 
     func pauseTimer() {
-        self.stopped = true
-        self.timer?.invalidate()
-        self.previousDate = nil
-        self.timer = nil
+        stopped = true
+        timer?.invalidate()
+        previousDate = nil
+        timer = nil
     }
 }

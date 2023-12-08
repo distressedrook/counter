@@ -7,7 +7,11 @@
 
 import SwiftUI
 
-struct ControlBox<VM>: View where VM: HomeViewModel{
+struct ControlBox<VM>: View where VM: HomeViewModel {
+    private let PauseImageName = "pause"
+    private let ArrowTriangleImageName = "arrowtriangle.right.fill"
+    private let ButtonDimension: Double = 50
+    private let IconDimension: Double = 18
 
     @ObservedObject var viewModel: VM
 
@@ -15,20 +19,28 @@ struct ControlBox<VM>: View where VM: HomeViewModel{
         VStack {
             Spacer()
             HStack {
-                Button(action: { viewModel.toggleCountdown()},
-                       label: { Image(systemName: !viewModel.stopped ? "pause" : "arrowtriangle.right.fill").resizable().frame(width: 14, height: 18) })
-                .frame(width: 50, height: 50)
+                Button(action: {
+                    viewModel.toggleCountdown()
+                }, label: {
+                    Image(systemName: !viewModel.stopped ? PauseImageName : ArrowTriangleImageName).frame(width: IconDimension, height: IconDimension)
+                })
+                .frame(width: ButtonDimension, height: ButtonDimension)
                 .foregroundColor(Color.mainSecondaryColor)
-                .background(Color.mainColor).cornerRadius(25)
+                .background(Color.mainColor).cornerRadius(ButtonDimension / 2)
+
                 Spacer()
-                Button(action: { viewModel.stopTimer() },
-                label: { Image(systemName: "stop.fill").resizable().frame(width: 18, height: 18) })
+
+                Button(action: {
+                    viewModel.stopTimer()
+                }, label: {
+                    Image(systemName: "stop.fill").resizable().frame(width: IconDimension, height: IconDimension)
+                })
                 .disabled(!viewModel.stopButtonEnabled)
-                .frame(width: 50, height: 50)
+                .frame(width: ButtonDimension, height: ButtonDimension)
                 .foregroundColor(Color.mainSecondaryColor)
                 .background(!viewModel.stopButtonEnabled ? Color.mainColor.opacity(0.5) : Color.mainColor)
-                .cornerRadius(25)
-                .animation(.spring(), value: viewModel.stopButtonEnabled    )
+                .cornerRadius(ButtonDimension / 2)
+                .animation(.spring(), value: viewModel.stopButtonEnabled)
 
             }.padding(75)
         }
