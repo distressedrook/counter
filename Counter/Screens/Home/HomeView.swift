@@ -15,10 +15,8 @@ struct HomeView<VM>: View where VM: HomeViewModel {
     var body: some View {
         ZStack {
             Color.primaryColor.edgesIgnoringSafeArea(.all)
-            Group {
-                Clock(progress: $viewModel.progress, displayText: $viewModel.displayText)
-                ControlBox(viewModel: viewModel)
-            }
+            Clock(progress: $viewModel.progress, displayText: $viewModel.displayText)
+            ControlBox(viewModel: viewModel)
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .background { self.viewModel.scheduleNotificationIfNeeded() }
