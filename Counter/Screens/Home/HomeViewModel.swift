@@ -8,23 +8,26 @@
 import SwiftUI
 
 protocol HomeViewModel: ObservableObject {
+    /*Variables responsible for progress*/
     var progress: Double { get set }
     var displayText: String { get set }
+
+    /*Variables responsible for controlling the pause/play, stop button states*/
     var stopped: Bool { get set }
     var stopButtonEnabled: Bool { get set }
 
-    func stopTimer()
     func toggleCountdown()
-    func startTimer()
-
+    func stopTimer()
     func scheduleNotificationIfNeeded()
 }
 
 class HomeViewModelImp: HomeViewModel {
+    /*Any updates to below variables triggers UI updates*/
     @Published var progress: Double
     @Published var displayText: String
     @Published var stopped: Bool
     @Published var stopButtonEnabled: Bool
+    /*--*/
 
     private let initialTime: Int
     private var timer: Timer?
@@ -87,13 +90,16 @@ extension HomeViewModelImp {
 extension HomeViewModelImp {
     func toggleCountdown() {
         if stopped {
+            print("Starting the timer...")
             startTimer()
         } else {
+            print("Pausing the timer...")
             pauseTimer()
         }
     }
 
     func stopTimer() {
+        print("Stopping the timer...")
         stopped = true
         stopButtonEnabled = false
         timer?.invalidate()
@@ -119,6 +125,9 @@ extension HomeViewModelImp {
                 return
             }
             let timeElapsed = Int(Date.now.timeIntervalSince(initialDate) * 1000)
+            /*
+             Key part where all the magic happens. this value triggers didSet, which in turn updates the published values
+             */
             timeRemaining = timeRemaining - timeElapsed
             if timeRemaining <= 0 {
                 timeRemaining = 0

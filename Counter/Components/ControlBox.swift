@@ -20,6 +20,7 @@ struct ControlBox<VM>: View where VM: HomeViewModel {
             Spacer()
             HStack {
                 Button(action: {
+                    print("Toggling...")
                     viewModel.toggleCountdown()
                 }, label: {
                     Image(systemName: !viewModel.stopped ? PauseImageName : ArrowTriangleImageName).frame(width: IconDimension, height: IconDimension)
