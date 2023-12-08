@@ -12,6 +12,7 @@ struct ControlBox<VM>: View where VM: HomeViewModel {
     private let ArrowTriangleImageName = "arrowtriangle.right.fill"
     private let ButtonDimension: Double = 50
     private let IconDimension: Double = 18
+    private let Padding: Double = 75
 
     @ObservedObject var viewModel: VM
 
@@ -43,7 +44,7 @@ struct ControlBox<VM>: View where VM: HomeViewModel {
                 .cornerRadius(ButtonDimension / 2)
                 .animation(.spring(), value: viewModel.stopButtonEnabled)
 
-            }.padding(75)
+            }.padding(Padding)
         }
     }
 }
